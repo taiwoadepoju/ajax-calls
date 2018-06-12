@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AJAX - fetching from local plain text file</title>
+</head>
+<body>
+	<!-- How to fetch data from a local plain text file -->
+	<!-- Data would be fetched from the sample.txt file -->
+
+	<!-- Note: you need a server to see AJAX changes in console or you would see an error instead. use live-server or XAMPP -->
+	<button id="button">Get text file</button>
+
+	<div id="text"></div>
+
+	<script>
+		// Create an event listener for the button
+		document.getElementById('button').addEventListener('click', loadText);
+			// This event listener will execute a function called "loadtext" on the click of the button
+
+			// The loadText function is written below
+			function loadText(){
+				// create XHR object (XHR means XML HTTP Request)
+				var xhr = new XMLHttpRequest();
+				console.log(xhr);
+
+				// for the xhr.open first parameter: type of request, second parameter: url/file location, third parameter: is the request asynchronous or not? 
+				xhr.open('GET', 'sample.txt', true);
+
+				xhr.onload = function(){
+					// check the status of the request
+					if(this.status == 200){
+						// console.log(this.responseText); 
+						document.getElementById('text').innerHTML = this.responseText;
+					} else if(this.status = 404){
+						document.getElementById('text').innerHTML = 'Not Found';
+					}
+				}
+
+				// check for errors
+				xhr.onerror = function(){
+					console.log('request error');
+				}
+				// Sends the request
+				xhr.send();
+			}
+
+			// Alternative to xhr.onload:
+			// xhr.onreadystatechange = function(){
+			// 	if(this.readyState == 4 && this.status == 200){
+			// 		console.log(this.responseText);
+
+			// 	}
+			// }
+
+			// Optional - used for loaders
+			// xhr.onprogress = function(){
+			// 	console.log('READYSTATE: ' xhr.readystate);
+			// }
+
+
+
+				//readystate values
+				// 0: request not initialized
+				// 1: server connection established
+				// 2: request received
+				// 3: processing request
+				// 4: request finished and response is ready
+
+				// HTTP Statuses
+				// 200: OK
+				// 403: Forbidden
+				// 404: Not found
+			</script>
+		</body>
+		</html>
